@@ -11,7 +11,7 @@ import Box from '@material-ui/core/Box';
 
 import './App.css';
 
-const gridItem = styled(Paper)(({theme}) => ({
+const Item = styled(Paper)(({theme}) => ({
     ...theme.typography.body2,
     padding: theme.spacing(2),
     textAlign: 'center',
