@@ -21,15 +21,17 @@ const Item = styled(Paper)(({theme}) => ({
 function ItemInput(props) {
     const [item, setItem] = useState("");
     const [items, setItems] = useState([]);
-
+    
     function handleSubmit(e) {
         e.preventDefault();
+        if (!items.some(x => x.text === item)) {
+            const newItem = {
+                id: new Date().getTime(),
+                text: item,
+            };
+            setItems([...items, newItem]);
 
-        const newItem = {
-            id: new Date().getTime(),
-            text: item,
-        };
-        setItems([...items].concat(newItem));
+        }
         setItem("");
     }
         function deleteItem(id) {
