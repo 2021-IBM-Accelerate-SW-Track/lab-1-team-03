@@ -32,13 +32,17 @@ function ItemInput(props) {
         setItems([...items].concat(newItem));
         setItem("");
     }
+        function deleteItem(id) {
+        let newItems = items.filter(item => item.id !== id); //there are a few ways todelete, filter seems to work over splice
+        setItems(newItems);
+    }
 
     const itemlist = items.map((item) => (
         <div key={item.id}>
             <Box sx={{flexGrow: 1}}>
                 <Grid container spacing={0}>
                     <Grid item xs={12}>
-                        <Item>{item.text} <IconButton onClick={() => null} className="trash">
+                        <Item>{item.text} <IconButton onClick={() => deleteItem(item.id)} className="trash">
                             <DeleteIcon/>
                         </IconButton></Item>
                     </Grid>
