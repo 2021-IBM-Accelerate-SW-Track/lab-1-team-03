@@ -8,6 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import {styled} from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
+import CreateIcon from '@material-ui/icons/Create';
 
 import './App.css';
 
@@ -21,7 +22,9 @@ const Item = styled(Paper)(({theme}) => ({
 function ItemInput(props) {
     const [item, setItem] = useState("");
     const [items, setItems] = useState([]);
-    
+    const [itemEditing, setItemEditing] = useState(null);
+    var [editingText, setEditingText] = useState("");
+
     function handleSubmit(e) {
         e.preventDefault();
         if (!items.some(x => x.text === item)) {
@@ -34,8 +37,22 @@ function ItemInput(props) {
         }
         setItem("");
     }
-        function deleteItem(id) {
-        let newItems = items.filter(item => item.id !== id); //there are a few ways todelete, filter seems to work over splice
+
+    function submitEdits(id) {
+        const updatedTodos = [...items].map((item) => {
+            if (item.id === id && (editingText !== "")) {
+                item.text = editingText;
+            }
+            return item;
+        });
+        setItems(updatedTodos);
+        setItemEditing(null);
+        setEditingText("");
+    }
+
+
+    function deleteItem(id) {
+        let newItems = items.filter(item => item.id !== id);
         setItems(newItems);
     }
 
@@ -44,9 +61,37 @@ function ItemInput(props) {
             <Box sx={{flexGrow: 1}}>
                 <Grid container spacing={0}>
                     <Grid item xs={12}>
-                        <Item>{item.text} <IconButton onClick={() => deleteItem(item.id)} className="trash">
-                            <DeleteIcon/>
-                        </IconButton></Item>
+                        <Item>
+                            {item.id === itemEditing ? (
+                                <form onSubmit={e => {
+                                    e.preventDefault();
+                                    setEditingText(editingText);
+                                    submitEdits(item.id);
+                                }}>
+                                    <TextField
+                                        color="secondary"
+                                        type="text"
+                                        onChange={(e) => setEditingText(e.target.value)}
+                                        defaultValue={item.text}
+                                    />
+                                </form>
+                            ) : (
+                                <div>{item.text}</div>
+                            )}
+                            {item.id === itemEditing ? (
+                                <IconButton onClick={() => submitEdits(item.id)}>
+                                    <CreateIcon fontSize="large"/>
+                                </IconButton>
+                            ) : (
+                                <IconButton onClick={() => {
+                                    setItemEditing(item.id);
+                                }}>
+                                    <CreateIcon fontSize="default"/>
+                                </IconButton>
+                            )}
+                            <IconButton onClick={() => deleteItem(item.id)}>
+                                <DeleteIcon fontSize="default"/>
+                            </IconButton></Item>
                     </Grid>
                 </Grid>
             </Box>
