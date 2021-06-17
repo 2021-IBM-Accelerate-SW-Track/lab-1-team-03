@@ -20,19 +20,25 @@ const Item = styled(Paper)(({theme}) => ({
 }));
 
 function ItemInput(props) {
-    const [item, setItem] = useState("");
-    const [items, setItems] = useState([]);
-    const [itemEditing, setItemEditing] = useState(null);
-    var [editingText, setEditingText] = useState("");
+    /*
+    state lets a component create and manage its own data. 
+    If state changes, react is notified and re-renders the component in DOM
+    so when any of the below arrays are changed react re-renders them for us.
+    
+    */
+    const [item, setItem] = useState("");  // defaults as an empty string
+    const [items, setItems] = useState([]); // default empty array
+    const [itemEditing, setItemEditing] = useState(null); // default null
+    var [editingText, setEditingText] = useState(""); // default empty string
 
     function handleSubmit(e) {
-        e.preventDefault();
-        if (!items.some(x => x.text === item)) {
-            const newItem = {
+        e.preventDefault(); //this prevents the page from refreshing when you submit with the enter key
+        if (!items.some(x => x.text === item)) { // this line prevents items with the same text form being added to the setItems array.
+            const newItem = { //this is our item object
                 id: new Date().getTime(),
                 text: item,
             };
-            setItems([...items, newItem]);
+            setItems([...items, newItem]); //look up spread operators - basically [...items] represents the entire items array
 
         }
         setItem("");
@@ -40,22 +46,22 @@ function ItemInput(props) {
 
     function submitEdits(id) {
         const updatedTodos = [...items].map((item) => {
-            if (item.id === id && (editingText !== "")) {
+            if (item.id === id && (editingText !== "")) { // loops through items and when item.id === our current id we change the text
                 item.text = editingText;
             }
             return item;
         });
-        setItems(updatedTodos);
-        setItemEditing(null);
-        setEditingText("");
+        setItems(updatedTodos); // update the setItems array with our change
+        setItemEditing(null); // after we finish edit, we are now editing nothing
+        setEditingText(""); // empty the edit
     }
-
 
     function deleteItem(id) {
         let newItems = items.filter(item => item.id !== id);
         setItems(newItems);
     }
-
+    
+    //map is just a glorified loop, below loops through the items array and displays the below JSX/HTML
     const itemlist = items.map((item) => (
         <div key={item.id}>
             <Box sx={{flexGrow: 1}}>
