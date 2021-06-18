@@ -1,5 +1,9 @@
 .App {
   text-align: center;
+  width: 75%;
+  border: 15px solid rgb(113, 210, 232);
+  padding: 40px;
+  margin: auto;
 }
 
 body {
@@ -11,7 +15,21 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+div {
+  padding-top: 25px;
+  padding-right: 30px;
+  padding-bottom: 25px;
+  padding-left: 30px;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+
+.completed
+{
+  color: rgb(152, 253, 0);
+  text-decoration: line-through;
 }
