@@ -1,5 +1,6 @@
 import React, {useState} from "react"
 import {TextField} from "@material-ui/core";
+import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Grid from '@material-ui/core/Grid';
@@ -150,14 +151,22 @@ function ItemInput(props) {
             <form onSubmit={handleSubmit}>
                 <TextField
                     label="What do you want to do?"
-                    color="secondary"
+                    color="primary"
                     type="text"
                     value={item}
                     onChange={(e) => setItem(e.target.value)}
                     fullWidth
                     required={true}
+                    data-testid="new-item-input"
                 />
             </form>
+            <Button
+                onClick={handleSubmit}
+                variant="contained"
+                color="primary"
+                data-testid="new-item-button">
+                <div>add to-do!</div>
+            </Button>
             <div>{itemlist}</div>
         </>
     );
@@ -168,11 +177,10 @@ function App() {
     return (
         <div className="App">
             <h1>To-Do list</h1>
-            <ItemInput/>
+            <ItemInput data-testid="new-item-input" data-testid="new-item-button"/>
         </div>
     );
 }
 
 
 export default App;
-
