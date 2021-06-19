@@ -30,6 +30,7 @@ code {
 
 .completed
 {
-  color: rgb(152, 253, 0);
+  color: rgb(191, 0, 0);
   text-decoration: line-through;
+  font-weight: bold;
 }
