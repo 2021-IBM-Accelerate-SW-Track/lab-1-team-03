@@ -1,6 +1,4 @@
-import Header from "./component/header"
 import React, {useState} from "react"
-import ReactDOM from "react-dom"
 import {TextField} from "@material-ui/core";
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -9,6 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import {styled} from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import CreateIcon from '@material-ui/icons/Create';
+import CheckIcon from '@material-ui/icons/Check';
 
 import './App.css';
 
@@ -18,6 +17,25 @@ const Item = styled(Paper)(({theme}) => ({
     textAlign: 'center',
     alignItems: 'center',
 }));
+
+function getCurrentTime() {
+    var tempDate = new Date();
+    var yearString = String(tempDate.getFullYear()).slice(2);
+    var AM = (tempDate.getHours() < 12);
+    var time = "";
+    var hours = tempDate.getHours();
+    if (hours !== 12) {
+        hours = hours % 12;
+    }
+    if (AM) {
+        time = "AM";
+    } else {
+        time = "PM"
+    }
+    if (hours == 0) hours = 12;
+    var date = hours + ":" + tempDate.getMinutes() + time + "\t" + Number(tempDate.getMonth() + 1) + "/" + tempDate.getDate() + '/' + yearString;
+    return date;
+}
 
 function ItemInput(props) {
     /*
@@ -29,7 +47,7 @@ function ItemInput(props) {
     const [item, setItem] = useState("");  // defaults as an empty string
     const [items, setItems] = useState([]); // default empty array
     const [itemEditing, setItemEditing] = useState(null); // default null
-    var [editingText, setEditingText] = useState(""); // default empty string
+    let [editingText, setEditingText] = useState(""); // default empty string
 
     function handleSubmit(e) {
         e.preventDefault(); //this prevents the page from refreshing when you submit with the enter key
@@ -37,16 +55,21 @@ function ItemInput(props) {
             const newItem = { //this is our item object
                 id: new Date().getTime(),
                 text: item,
+                time: getCurrentTime(),
+                completed: false
             };
             setItems([...items, newItem]); //look up spread operators - basically [...items] represents the entire items array
 
+        } else {
+            alert("Please avoid duplicates");
         }
         setItem("");
     }
 
     function submitEdits(id) {
         const updatedTodos = [...items].map((item) => {
-            if (item.id === id && (editingText !== "")) { // loops through items and when item.id === our current id we change the text
+            if (item.id === id && (editingText !== "") &&
+                ((!items.some(x => x.text === editingText)))) {
                 item.text = editingText;
             }
             return item;
@@ -60,7 +83,17 @@ function ItemInput(props) {
         let newItems = items.filter(item => item.id !== id);
         setItems(newItems);
     }
-    
+
+    function completion(id) {
+        const completetodo = [...items].map((item) => {
+            if (item.id === id) {
+                item.completed = !item.completed;
+            }
+            return item;
+        });
+        setItems(completetodo); // update the setItems array with our change
+    }
+
     //map is just a glorified loop, below loops through the items array and displays the below JSX/HTML
     const itemlist = items.map((item) => (
         <div key={item.id}>
@@ -82,7 +115,11 @@ function ItemInput(props) {
                                     />
                                 </form>
                             ) : (
-                                <div>{item.text}</div>
+                                <>
+                                    <div
+                                        className={item.completed === true ? ("completed") : ("incomplete")}>{item.text}</div>
+                                    <div>{item.time}</div>
+                                </>
                             )}
                             {item.id === itemEditing ? (
                                 <IconButton onClick={() => submitEdits(item.id)}>
@@ -97,7 +134,11 @@ function ItemInput(props) {
                             )}
                             <IconButton onClick={() => deleteItem(item.id)}>
                                 <DeleteIcon fontSize="default"/>
-                            </IconButton></Item>
+                            </IconButton>
+                            <IconButton onClick={() => completion(item.id)}>
+                                <CheckIcon fontSize="default"/>
+                            </IconButton>
+                        </Item>
                     </Grid>
                 </Grid>
             </Box>
@@ -134,3 +175,4 @@ function App() {
 
 
 export default App;
+
