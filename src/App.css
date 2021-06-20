@@ -1,18 +1,21 @@
 .App {
   text-align: center;
   width: 75%;
-  border: 15px solid rgb(113, 210, 232);
+  border: 15px rgba(75, 75, 235, 0.852);
   padding: 40px;
   margin: auto;
+  border-style: ridge;
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: rgb(75, 75, 235);
+  background-color: rgba(199, 237, 230, 0.695);
 }
 
 div {
@@ -23,13 +26,11 @@ div {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
-
-.completed
-{
+.completed {
   color: rgb(191, 0, 0);
   text-decoration: line-through;
   font-weight: bold;
