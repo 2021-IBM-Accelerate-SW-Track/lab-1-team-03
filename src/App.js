@@ -9,6 +9,7 @@ import {styled} from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import CreateIcon from '@material-ui/icons/Create';
 import CheckIcon from '@material-ui/icons/Check';
+import { Typography } from '@material-ui/core';
 
 import './App.css';
 
@@ -117,8 +118,8 @@ function ItemInput(props) {
                                 </form>
                             ) : (
                                 <>
-                                    <div
-                                        className={item.completed === true ? ("completed") : ("incomplete")}>{item.text}</div>
+                                    <Typography noWrap
+                                        className={item.completed === true ? ("completed") : ("incomplete")}>{item.text}</Typography>
                                     <div>{item.time}</div>
                                 </>
                             )}
